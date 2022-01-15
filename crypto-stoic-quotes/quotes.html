@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="quotes.css" />
+    <script src="quotes.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body onload="update()">
+    <h1>HODL On!</h1>
+    <h2>Crypto and Stoic Quotes</h2>
+    <div class="container">
+      <div class="row">
+        <div class="coin">
+          <img
+            src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"
+            alt="BTC"
+          />
+          <table>
+            <tr>
+              <td class="label">Ticker</td>
+              <td class="value">BTC</td>
+            </tr>
+            <tr>
+              <td class="label">Price</td>
+              <td id="btc-price" class="value">NaN</td>
+            </tr>
+            <tr>
+              <td class="label">ATH Price</td>
+              <td id="btc-ath" class="value">NaN</td>
+            </tr>
+            <tr>
+              <td class="label">ATH Date</td>
+              <td id="btc-athd" class="value">NaN</td>
+            </tr>
+            <tr>
+              <td class="label">24 hour change</td>
+              <td id="btc-24" class="value">NaN</td>
+            </tr>
+          </table>
+        </div>
+        <div class="quote">
+          <blockquote id="quote1">
+            Sed vel felis eu purus tempus consectetur sit amet non dui
+          </blockquote>
+          <div id="author1">Michael Scott</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="coin">
+          <img
+            src="https://cryptologos.cc/logos/ethereum-eth-logo.png"
+            alt="ETH"
+          />
+          <table>
+            <tr>
+              <td class="label">Ticker</td>
+              <td class="value">ETH</td>
+            </tr>
+            <tr>
+              <td class="label">Price</td>
+              <td id="eth-price" class="value">NaN</td>
+            </tr>
+            <tr>
+              <td class="label">ATH Price</td>
+              <td id="eth-ath" class="value">NaN</td>
+            </tr>
+            <tr>
+              <td class="label">ATH Date</td>
+              <td id="eth-athd" class="value">NaN</td>
+            </tr>
+            <tr>
+              <td class="label">24 hour change</td>
+              <td id="eth-24" class="value">NaN</td>
+            </tr>
+          </table>
+        </div>
+        <div class="quote">
+          <blockquote id="quote2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </blockquote>
+          <div id="author2">Michael Scott</div>
+        </div>
+      </div>
+      <section class="update">
+        <input type="button" value="Get Latest" onclick="update()" />
+        <div>Last updated: <span id="updated">Not yet</span></div>
+      </section>
+      <a href="javascript:changeCoinsColor('#bdcebe')">Turn green</a>
+      <a href="javascript:changeCoinsColor('#eca1a6')">Turn red</a>
+    </div>
+  </body>
+</html>

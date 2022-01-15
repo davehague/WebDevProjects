@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="priceper.css" />
+
+        <!-- Google fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+        <script src="priceper.js"></script>
+    </head>
+    <body>
+        <h1>Price per square inch</h1>
+        <div class="column" id="left" >
+            <img id="winner1" class="checkmark" src="images/checkmark.png">
+            <img class="pizza" src="images/pizza.png">
+            <div>
+                <div class="label">Inches</div>
+                <input type="text" id="PizzaInches1" onkeyup="calculatePizza1()" />
+                <br />
+
+                <div class="label">Price</div>
+                <input type="text"  id="PizzaPrice1"  onkeyup="calculatePizza1()" />
+                </br />
+
+                <div class="result">
+                    <div>Price per square inch:</div>      
+                    <span id="PPSI1"></span>
+                </div>
+            </div>
+        </div>
+        <div class="column" id="right" >
+            <img id="winner2" class="checkmark" src="images/checkmark.png">
+            <img class="pizza" src="images/pizza.png">
+            <div>
+                <div class="label">Inches</div>
+                <input type="text"  id="PizzaInches2" onkeyup="calculatePizza2()" />
+                <br />
+                
+                <div class="label">Price</div>
+                <input type="text"  id="PizzaPrice2"  onkeyup="calculatePizza2()" />
+                </br />
+                
+                <div class="result">
+                    <div>Price per square inch:</div>     
+                    <span id="PPSI2"></span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

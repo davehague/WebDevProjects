@@ -1,0 +1,48 @@
+h1 {
+  text-align: center;
+}
+
+img.checkmark {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    visibility: hidden; 
+}
+
+img.pizza {
+  height: 300px;
+  width: 300px;
+
+}
+
+h1,
+div {
+  font-family: "Raleway", sans-serif;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  text-align: center;
+  position: relative;
+}
+
+#left {
+  background-color: aqua;
+}
+
+#right {
+  background-color: blueviolet;
+  color: white;
+}
+
+div.label {
+  display: inline-block;
+  width: 70px;
+}
+
+div.result {
+  padding: 10px;
+}

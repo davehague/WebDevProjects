@@ -1,0 +1,85 @@
+body {
+    background-color: #ada397;
+}
+
+td {
+    height: 1px;
+}
+
+td.label {
+    text-align: left;
+    font-weight: bold;
+}
+
+td.value {
+    text-align: left;
+}
+
+h1, h2, div {
+    font-family: 'Dosis', sans-serif;
+}
+
+h1, h2 {
+    text-align: center;
+    color: white;
+}
+
+img {
+    float: left;
+    height: 200px;
+    width: 200px;
+    padding: 20px;
+}
+
+input {
+    flex-basis: auto;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+}
+
+.container {
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #ada397;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+/* 2017 pallettes https://www.w3schools.com/colors/colors_palettes.asp */
+.coin {
+    text-align: center;
+    background-color: #bdcebe;
+    flex-basis: 50%;
+    
+    display: flex;
+    flex-direction: row;
+}
+
+.coin-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.quote {
+    background-color: #d6cbd3;
+    font-size: 20px;
+    flex-basis: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.update {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
