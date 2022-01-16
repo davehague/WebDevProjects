@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="foodrules.css" />
+    <link rel="stylesheet" type="text/css" href="slider.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="foodrules.js"></script>
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body onload="newRule()">
+    <section class="main">
+      <blockquote class="rule" id="rule">Lorem ipsum</blockquote>
+      <form action="javascript:submit()">
+        <div class="row">
+          <span>Is it food?</span>
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            class="slider"
+            id="food"
+          />
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        </div>
+        <div class="row">
+          <span>Mostly plants?</span>
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            class="slider"
+            id="food"
+          />
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        </div>
+        <div class="row">
+          <span>Not too much?</span>
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            class="slider"
+            id="food"
+          />
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        </div>
+        <div class="row">
+            <input class="button" type="submit" value="Submit" />
+        </div>
+        <div class="row">
+            <p>Last submitted:</p>
+        </div>
+        
+      </form>
+    </section>
+  </body>
+</html>
