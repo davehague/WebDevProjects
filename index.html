@@ -2,6 +2,8 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/css" href="nav-bar/navbar.css" />
+    <script type="text/javascript" src="index.js"></script>
 
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,14 +14,14 @@
     />
   </head>
   <body>
-    <div class="nav-bar">
-      <a href="price-per-slice/priceper.html" class="nav-button">Price Per Inch Calculator</a>
-      <!-- <a href="squareinchoptimizer.html" class="nav-button">Square Inch Optimizer</a> -->
-      <a href="crypto-stoic-quotes/quotes.html" class="nav-button">Crypto Stoic Quotes</a>
+    <!-- Shared nav-bar -->
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0);" onclick="navigate('price-per-slice/priceper.html')">Price Per Inch Calculator</a>
+      <a href="javascript:void(0);" onclick="navigate('crypto-stoic-quotes/quotes.html')">Crypto Stoic Quotes</a>
     </div>
-    <div class="content">
-      <div>Content here!</div>
-    </div>
+    
+    <iframe id="content" src="price-per-slice/priceper.html">
+
     <!-- <footer>
             Here's the footer
         </footer> -->

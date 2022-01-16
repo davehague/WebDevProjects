@@ -1,41 +1,16 @@
-a, div {
-    font-family: "Raleway", sans-serif;
-    font-size: 20px;
+/* || GENERAL STYLES */
+a,
+div {
+  font-family: "Raleway", sans-serif;
+  font-size: 20px;
 }
 
-.nav-button {
-    display: block;
-    height: 50px;
+iframe {
+    position: fixed;
+    background: #fff;
+    border: none;
+    top: 0; right: 0;
+    bottom: 0; left: 200px;
     width: 100%;
-    background-color: darksalmon;
-    border: 2px solid gray;
-
-    color: white;
-    text-align: center;
-
-    margin: 5px;
-    
-    background: linear-gradient(top, darksalmon, #2f5f63);
-    border-radius: 5px;
+    height: 100%;
 }
-
-a.nav-button {
-    text-decoration: none;
-}
-
-a.nav-button:hover {
-    background-color: salmon;
-}
-
-.nav-bar {
-    float: left;
-    width: 15%;
-    background-color: darkgray;
-}
-
-.content {
-    float: left;
-    width: 85%;
-    background-color: chartreuse;
-}
-
