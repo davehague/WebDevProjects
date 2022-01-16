@@ -4,7 +4,11 @@ function newRule() {
 }
 
 function submit() {
-    console.log("submitting!");
+    let food = document.getElementById("food").value;
+    let plants = document.getElementById("plants").value;
+    let amount = document.getElementById("amount").value;
+
+    console.log("food = " + food + ", plants = " + plants + ", amount = " + amount);
 }
 
 let rules = [
