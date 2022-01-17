@@ -9,7 +9,8 @@ p {
 }
 
 body {
-    background-color: #405d27;
+    background-image: linear-gradient(#3e4444, #405d27);
+    height: 98vh;
 }
 
 section {

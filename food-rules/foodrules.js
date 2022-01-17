@@ -1,14 +1,184 @@
+const TABLE_NAME = "foodrules_os";
+
+let db;
+let list;
+function load() {
+  newRule();
+  list = document.querySelector("#foods");
+
+  let request = indexedDB.open("foodrules_db", 2);
+
+  request.onerror = function () {
+    console.log("Database failed to open");
+  };
+
+  request.onupgradeneeded = function (e) {
+    let db = e.target.result; // Get a reference to the opened DB
+    let objectStore = db.createObjectStore(TABLE_NAME, {
+      // Create a "table"
+      keyPath: "id",
+      autoIncrement: true,
+    });
+
+    // Define what data items the objectStore will contain
+    objectStore.createIndex("date", "date", { unique: true });
+    objectStore.createIndex("food", "food", { unique: false });
+    objectStore.createIndex("plants", "plants", { unique: false });
+    objectStore.createIndex("amount", "amount", { unique: false });
+
+    console.log("Database setup complete");
+  };
+
+  request.onsuccess = function () {
+    console.log("Database successfully opened");
+    db = request.result;
+
+    displayData();
+  };
+}
+
 function newRule() {
   let randomRule = rules[Math.floor(Math.random() * rules.length)];
   document.getElementById("rule").innerHTML = randomRule;
 }
 
 function submit() {
-    let food = document.getElementById("food").value;
-    let plants = document.getElementById("plants").value;
-    let amount = document.getElementById("amount").value;
+  let food = document.getElementById("food").value;
+  let plants = document.getElementById("plants").value;
+  let amount = document.getElementById("amount").value;
+  let date = new Date().toLocaleDateString("en-us", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
-    console.log("food = " + food + ", plants = " + plants + ", amount = " + amount);
+  let newItem = { date: date, food: food, plants: plants, amount: amount };
+
+  // open a read/write db transaction, ready for adding the data
+  let transaction = db.transaction([TABLE_NAME], "readwrite");
+
+  // call an object store that's already been added to the database
+  let objectStore = transaction.objectStore(TABLE_NAME);
+
+  // Make a request to add our newItem object to the object store
+  let request = objectStore.add(newItem);
+  request.onsuccess = function () {
+    console.log(
+      "food = " + food + ", plants = " + plants + ", amount = " + amount
+    );
+  };
+
+  // Report on the success of the transaction completing, when everything is done
+  transaction.oncomplete = function () {
+    console.log("Transaction completed: database modification finished.");
+
+    // update the display of data to show the newly added item, by running displayData() again.
+    displayData();
+  };
+
+  transaction.onerror = function () {
+    console.log("Transaction not opened due to error");
+  };
+}
+
+function displayData() {
+  // Here we empty the contents of the list element each time the display is updated
+  // If you didn't do this, you'd get duplicates listed each time a new note is added
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+
+  // Open our object store and then get a cursor - which iterates through all the
+  // different data items in the store
+  let objectStore = db.transaction(TABLE_NAME).objectStore(TABLE_NAME);
+  objectStore.openCursor().onsuccess = function (e) {
+    // Get a reference to the cursor
+    let cursor = e.target.result;
+
+    // If there is still another data item to iterate through, keep running this code
+    if (cursor) {
+      // Create a list item, h3, and p to put each data item inside when displaying it
+      // structure the HTML fragment, and append it inside the list
+      const listItem = document.createElement("li");
+      const s1 = document.createElement("span");
+      const s2 = document.createElement("span");
+      const s3 = document.createElement("span");
+      const s4 = document.createElement("span");
+
+      s1.style = "border: 1; margin: 0px 5px"
+      s2.style = "border: 1; margin: 0px 5px"
+      s3.style = "border: 1; margin: 0px 5px"
+      s4.style = "border: 1; margin: 0px 5px"
+
+      listItem.appendChild(s1);
+      listItem.appendChild(s2);
+      listItem.appendChild(s3);
+      listItem.appendChild(s4);
+      list.appendChild(listItem);
+
+      // Put the data from the cursor inside the h3 and para
+      s1.textContent = cursor.value.date
+      s2.textContent = 'Food? ' + cursor.value.food;
+      s3.textContent = 'Plants? ' + cursor.value.plants;
+      s4.textContent = 'Not too much? ' + cursor.value.amount;
+
+      // Store the ID of the data item inside an attribute on the listItem, so we know
+      // which item it corresponds to. This will be useful later when we want to delete items
+      listItem.setAttribute("data-note-id", cursor.value.id);
+
+      // Create a button and place it inside each listItem
+      const deleteBtn = document.createElement("button");
+      listItem.appendChild(deleteBtn);
+      deleteBtn.textContent = "Delete";
+
+      // Set an event handler so that when the button is clicked, the deleteItem()
+      // function is run
+      deleteBtn.onclick = deleteItem;
+
+      // Iterate to the next item in the cursor
+      cursor.continue();
+    } else {
+      // Again, if list item is empty, display a 'No notes stored' message
+      if (!list.firstChild) {
+        const listItem = document.createElement("li");
+        listItem.textContent = "No notes stored.";
+        list.appendChild(listItem);
+      }
+      // if there are no more cursor items to iterate through, say so
+      console.log("Notes all displayed");
+    }
+  };
+}
+
+function deleteItem(e) {
+  // retrieve the name of the task we want to delete. We need
+  // to convert it to a number before trying it use it with IDB; IDB key
+  // values are type-sensitive.
+  let noteId = Number(e.target.parentNode.getAttribute("data-note-id"));
+
+  // open a database transaction and delete the task, finding it using the id we retrieved above
+  let transaction = db.transaction([TABLE_NAME], "readwrite");
+  let objectStore = transaction.objectStore(TABLE_NAME);
+  let request = objectStore.delete(noteId);
+
+  // report that the data item has been deleted
+  transaction.oncomplete = function () {
+    // delete the parent of the button
+    // which is the list item, so it is no longer displayed
+    e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+    console.log("Note " + noteId + " deleted.");
+
+    // Again, if list item is empty, display a 'No notes stored' message
+    if (!list.firstChild) {
+      let listItem = document.createElement("li");
+      listItem.textContent = "No notes stored.";
+      list.appendChild(listItem);
+    }
+  };
 }
 
 let rules = [
