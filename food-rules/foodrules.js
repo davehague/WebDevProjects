@@ -1,10 +1,10 @@
 const TABLE_NAME = "foodrules_os";
 
 let db;
-let list;
+let table;
 function load() {
   newRule();
-  list = document.querySelector("#foods");
+  table = document.querySelector("#foods");
 
   let request = indexedDB.open("foodrules_db", 2);
 
@@ -86,72 +86,68 @@ function submit() {
 }
 
 function displayData() {
-  // Here we empty the contents of the list element each time the display is updated
+  // Delete all rows
   // If you didn't do this, you'd get duplicates listed each time a new note is added
-  while (list.firstChild) {
-    list.removeChild(list.firstChild);
+  while (table.rows.length > 0) {
+    table.deleteRow(0);
   }
+
+  createTableRow(table, "1", "Date", "Food", "Plants", "Amount", "Delete");
 
   // Open our object store and then get a cursor - which iterates through all the
   // different data items in the store
   let objectStore = db.transaction(TABLE_NAME).objectStore(TABLE_NAME);
+  const deleteBtn = createDeleteButton();
+  
   objectStore.openCursor().onsuccess = function (e) {
     // Get a reference to the cursor
     let cursor = e.target.result;
-
     // If there is still another data item to iterate through, keep running this code
     if (cursor) {
       // Create a list item, h3, and p to put each data item inside when displaying it
       // structure the HTML fragment, and append it inside the list
-      const listItem = document.createElement("li");
-      const s1 = document.createElement("span");
-      const s2 = document.createElement("span");
-      const s3 = document.createElement("span");
-      const s4 = document.createElement("span");
 
-      s1.style = "border: 1; margin: 0px 5px"
-      s2.style = "border: 1; margin: 0px 5px"
-      s3.style = "border: 1; margin: 0px 5px"
-      s4.style = "border: 1; margin: 0px 5px"
-
-      listItem.appendChild(s1);
-      listItem.appendChild(s2);
-      listItem.appendChild(s3);
-      listItem.appendChild(s4);
-      list.appendChild(listItem);
-
-      // Put the data from the cursor inside the h3 and para
-      s1.textContent = cursor.value.date
-      s2.textContent = 'Food? ' + cursor.value.food;
-      s3.textContent = 'Plants? ' + cursor.value.plants;
-      s4.textContent = 'Not too much? ' + cursor.value.amount;
-
-      // Store the ID of the data item inside an attribute on the listItem, so we know
-      // which item it corresponds to. This will be useful later when we want to delete items
-      listItem.setAttribute("data-note-id", cursor.value.id);
-
-      // Create a button and place it inside each listItem
-      const deleteBtn = document.createElement("button");
-      listItem.appendChild(deleteBtn);
-      deleteBtn.textContent = "Delete";
-
-      // Set an event handler so that when the button is clicked, the deleteItem()
-      // function is run
-      deleteBtn.onclick = deleteItem;
+      createTableRow(
+        table,
+        cursor.value.id,
+        cursor.value.date,
+        cursor.value.food,
+        cursor.value.plants,
+        cursor.value.amount,
+        "Delete (TODO)"
+      );
 
       // Iterate to the next item in the cursor
       cursor.continue();
-    } else {
-      // Again, if list item is empty, display a 'No notes stored' message
-      if (!list.firstChild) {
-        const listItem = document.createElement("li");
-        listItem.textContent = "No notes stored.";
-        list.appendChild(listItem);
-      }
-      // if there are no more cursor items to iterate through, say so
-      console.log("Notes all displayed");
     }
   };
+}
+
+function createTableRow(table, rowID, date, food, plants, amount, deleteButton) {
+  const row = table.insertRow();
+  // Store the ID of the data item inside an attribute on the listItem, so we know
+  // which item it corresponds to. This will be useful later when we want to delete items
+  row.setAttribute("data-note-id", rowID);
+
+  const dateCell = row.insertCell();
+  const foodCell = row.insertCell();
+  const plantsCell = row.insertCell();
+  const amountCell = row.insertCell();
+  const deleteCell = row.insertCell();
+
+  dateCell.innerText = date;
+  foodCell.innerText = food;
+  plantsCell.innerText = plants;
+  amountCell.innerText = amount;
+  deleteCell.innerText = deleteButton;
+}
+
+function createDeleteButton() {
+  // Create a button and place it inside each listItem
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.onclick = deleteItem;
+  return deleteBtn;
 }
 
 function deleteItem(e) {
@@ -167,17 +163,9 @@ function deleteItem(e) {
 
   // report that the data item has been deleted
   transaction.oncomplete = function () {
-    // delete the parent of the button
-    // which is the list item, so it is no longer displayed
+    // delete the parent of the button, which is the row
     e.target.parentNode.parentNode.removeChild(e.target.parentNode);
     console.log("Note " + noteId + " deleted.");
-
-    // Again, if list item is empty, display a 'No notes stored' message
-    if (!list.firstChild) {
-      let listItem = document.createElement("li");
-      listItem.textContent = "No notes stored.";
-      list.appendChild(listItem);
-    }
   };
 }
 
